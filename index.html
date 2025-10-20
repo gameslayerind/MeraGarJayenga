@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+    Sar par ice 👀
+  </title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- #made by @EpicEnchanter -->
+  <style>
+    :root{
+      --bgA:#070a1a; --bgB:#0d0830; --bgC:#06101b;
+      --neon1:#78f0ff; --neon2:#ff7ff2; --neon3:#7effb2;
+      --panelA: rgba(255,255,255,.10); --panelB: rgba(255,255,255,.04);
+      --border: rgba(120,240,255,.35);
+      --txtSoft:#cfe8ff; --txtDim:#b9c6ff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:#e9f5ff; overflow:hidden;
+      background:
+        radial-gradient(1200px 700px at 80% 10%, #250a5a 0%, transparent 60%),
+        radial-gradient(900px 600px at 15% 90%, #092a4a 0%, transparent 60%),
+        conic-gradient(from 220deg at 70% 20%, #0b1230, #0a0f25 40%, #0a1128 70%, #0b1230);
+      font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
+    /* 5s Preloader (your design) */
+    .loader-overlay{
+      position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column;
+      background: radial-gradient(120% 120% at 50% 50%, rgba(10,16,30,.9), rgba(6,10,22,.9));
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .loader{
+      position:relative;
+      transform: rotateZ(45deg);
+      perspective: 1000px;
+      border-radius: 50%;
+      width: 96px; height: 96px; color: #fff;
+    }
+    .loader:before,.loader:after{
+      content:''; display:block; position:absolute; top:0; left:0; width:inherit; height:inherit; border-radius:50%;
+      transform: rotateX(70deg); animation: 1s spin linear infinite;
+    }
+    .loader:after{ color:#FF3D00; transform: rotateY(70deg); animation-delay:.4s; }
+    @keyframes spin{
+      0%,100%{ box-shadow: .2em 0px 0 0px currentcolor }
+      12%{ box-shadow: .2em .2em 0 0 currentcolor }
+      25%{ box-shadow: 0 .2em 0 0px currentcolor }
+      37%{ box-shadow: -.2em .2em 0 0 currentcolor }
+      50%{ box-shadow: -.2em 0 0 0 currentcolor }
+      62%{ box-shadow: -.2em -.2em 0 0 currentcolor }
+      75%{ box-shadow: 0px -.2em 0 0 currentcolor }
+      87%{ box-shadow: .2em -.2em 0 0 currentcolor }
+    }
+    .loader-text{
+      margin-top:18px; color:#e7faff; font-weight:700; letter-spacing:.02em; text-align:center;
+      padding:10px 14px; border-radius:12px; 
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.25);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35), inset 0 0 14px rgba(120,240,255,.08);
+    }
+
+    /* Scene entrance — CAMERA EFFECT REMOVED */
+    .scene{ position:relative; min-height:100vh; width:100%; /* animation removed */ }
+    /* Also remove keyframes camIn */
+    /* Header realign */
+    header{
+      display:grid; grid-template-columns:1fr; justify-items:center; row-gap:8px;
+      padding:34px 16px 10px; opacity:1; /* was animated; set visible */
+    }
+    .title{
+      font-family:"Great Vibes",cursive; font-size:clamp(42px,8vw,96px);
+      background:linear-gradient(180deg,#e8fbff,var(--neon1) 55%, var(--neon2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-shadow:0 0 26px rgba(120,240,255,.35), 0 0 46px rgba(255,127,242,.25);
+      margin:0;
+    }
+
+    /* Redesigned name badges */
+    .name-row{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center }
+    .hi-name{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:14px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(120,240,255,.14), rgba(255,127,242,.08));
+      color:transparent; background-clip:text; -webkit-background-clip:text;
+      background-image: linear-gradient(180deg,#e9fcff, var(--neon1) 55%, var(--neon2));
+      position:relative; text-shadow: 0 0 20px rgba(120,240,255,.25);
+    }
+    .hi-name i{ font-style:normal; font-size:14px; color:#d7ffff; text-shadow:0 0 8px rgba(120,240,255,.5) }
+    .hi-name:before{
+      content:""; position:absolute; inset:0; border-radius:14px; pointer-events:none;
+      background: linear-gradient(160deg, rgba(255,255,255,.25), rgba(255,255,255,0) 40%);
+      opacity:.35;
+    }
+    .hi-name:after{
+      content:""; position:absolute; left:12px; right:12px; bottom:3px; height:2px; border-radius:2px;
+      background: linear-gradient(90deg, transparent, rgba(120,240,255,.9), transparent);
+      filter: blur(.5px); animation: shineLine 2.4s ease-in-out infinite;
+    }
+    @keyframes shineLine{ 0%,100%{ opacity:.45 } 50%{ opacity:1 } }
+    .to{opacity:.95; margin-top:4px; color:var(--txtSoft)}
+
+    /* Content grid */
+    .wrap{max-width:1080px; margin:10px auto 28px; padding:0 16px; opacity:1}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    @media (max-width:960px){.grid{grid-template-columns:1fr}}
+
+    /* Glass panels */
+    .panel{
+      border-radius:18px; padding:18px;
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      border:1px solid var(--border);
+      box-shadow:0 12px 34px rgba(0,0,0,.45), inset 0 0 24px rgba(120,240,255,.08);
+      backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%);
+      color:var(--txtDim);
+    }
+    .panel h3{ margin:0 0 10px; color:#d9f6ff }
+    .msg{line-height:1.7}
+
+    /* Lanterns */
+    .lanterns{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+    .lantern{
+      position:absolute; width:14px; height:20px; border-radius:6px 6px 10px 10px;
+      background: radial-gradient(7px 9px at 50% 40%, #eaffff, var(--neon1) 70%, #59d2ff 95%);
+      box-shadow: 0 0 18px 8px rgba(120,240,255,.45), 0 0 34px 12px rgba(255,127,242,.25);
+      opacity:.85; transform:translateY(110vh) translateX(0) scale(1);
+      animation: floatLantern linear forwards;
+    }
+    .lantern.alt{
+      background: radial-gradient(7px 9px at 50% 40%, #ffeaff, var(--neon2) 70%, #ff7fe6 95%);
+      box-shadow: 0 0 18px 8px rgba(255,127,242,.45), 0 0 34px 12px rgba(120,240,255,.25);
+    }
+    @keyframes floatLantern{ 0%{ transform: translateY(110vh) translateX(0) scale(.85); opacity:0 } 8%{ opacity:.95 } 100%{ transform: translateY(-20vh) translateX(var(--drift, 40px)) scale(1.08); opacity:0 } }
+
+    /* Edge LEDs */
+    .edges{ position:fixed; inset:0; pointer-events:none; z-index:3; }
+    .string{ position:absolute; left:0; width:100%; height:4px; display:flex; justify-content:space-between; padding:0 10px;
+             filter: drop-shadow(0 0 8px rgba(120,240,255,.6)); }
+    .top{ top:0 } .bottom{ bottom:0 }
+    .bulb{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--c, var(--neon1));
+      box-shadow: 0 0 10px 4px var(--c);
+      opacity:.25; animation: twinkle 1.6s var(--d,0s) infinite;
+    }
+    @keyframes twinkle{ 0%,100%{ opacity:.35; transform:translateY(0) } 50%{ opacity:1; transform:translateY(1px) } }
+
+    /* Stage */
+    .stage{
+      position:relative; min-height:360px; display:flex; align-items:center; justify-content:center;
+      border-radius:18px; overflow:visible; z-index:2;
+      background: radial-gradient(300px 200px at 50% 80%, rgba(120,240,255,.12), transparent 70%),
+                  radial-gradient(600px 360px at 50% 70%, rgba(255,127,242,.09), transparent 75%);
+      border:1px solid var(--border);
+      opacity:1; /* remove fadeIn animation */
+    }
+    .rangoli{
+      position:absolute; inset:auto 0 0; height:210px; opacity:.22; filter:blur(.2px);
+      background:
+        conic-gradient(from 0deg, rgba(120,240,255,.25) 0 10deg, transparent 10deg 20deg) 0 0/40px 40px,
+        radial-gradient(circle, rgba(255,127,242,.22) 2px, transparent 3px) 20px 20px/40px 40px;
+      mask: radial-gradient(closest-side,#000 62%, transparent 63%);
+    }
+
+    /* Candles */
+    .candles{
+      position:relative; width:min(92vw,420px); height:240px; display:flex; align-items:flex-end; justify-content:center;
+      gap:24px; filter: drop-shadow(0 16px 36px rgba(0,0,0,.55));
+      overflow:visible;
+    }
+    .candle{
+      position:relative; width:56px; border-radius:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+      border:1px solid rgba(120,240,255,.45);
+      box-shadow: inset 0 -10px 20px rgba(120,240,255,.25), inset 0 14px 22px rgba(255,255,255,.55);
+      backdrop-filter: blur(8px) saturate(130%); -webkit-backdrop-filter: blur(8px) saturate(130%);
+    }
+    .c1{ height:180px } .c2{ height:130px } .c3{ height:150px }
+    .candle:before{ content:""; position:absolute; inset:0; pointer-events:none; background: linear-gradient(160deg, rgba(255,255,255,.25), rgba(255,255,255,0) 40%); opacity:.35; }
+    .wick{ position:absolute; top:-12px; left:50%; width:4px; height:16px; transform:translateX(-50%); background:#0e1b2b; border-radius:2px; z-index:1 }
+
+    /* Emoji flames hidden initially */
+    .flame-emoji{
+      position:absolute; top:-36px; left:50%; transform:translateX(-50%);
+      font-size: 36px; line-height:1;
+      filter: drop-shadow(0 0 12px rgba(255,190,120,.6)) drop-shadow(0 0 22px rgba(120,240,255,.35));
+      animation: wiggle 2s ease-in-out infinite, bob 3.2s ease-in-out infinite;
+      opacity:0; z-index:2; pointer-events:none;
+    }
+    #e1{ font-size:40px } #e2{ font-size:34px } #e3{ font-size:36px }
+    @keyframes wiggle{ 0%,100%{ transform:translateX(-50%) rotate(-4deg) } 50%{ transform:translateX(-50%) rotate(4deg) } }
+    @keyframes bob{ 0%,100%{ margin-top:0 } 50%{ margin-top:-2px } }
+
+    .glow{
+      position:absolute; bottom:8px; left:50%; width:360px; height:140px; transform:translateX(-50%);
+      border-radius:50%; background: radial-gradient(closest-side, rgba(120,240,255,.62), transparent 70%);
+      filter: blur(18px); opacity:0; transition:.9s ease;
+    }
+
+    .controls{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; justify-content:center}
+    button{
+      cursor:pointer; padding:10px 16px; border-radius:999px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(120,240,255,.16), rgba(120,240,255,.06));
+      color:#e9fcff; font-weight:700; transition:.2s; letter-spacing:.02em;
+      box-shadow: 0 0 10px rgba(120,240,255,.22);
+    }
+    .primary{ border-color: rgba(255,127,242,.55); background: linear-gradient(180deg, rgba(255,127,242,.18), rgba(255,127,242,.07)); }
+    button:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,.35), 0 0 14px rgba(120,240,255,.35) }
+
+    /* Neon sweep */
+    .light-sweep{
+      position:fixed; inset:0; pointer-events:none; mix-blend-mode:screen; opacity:.22;
+      background: radial-gradient(600px 300px at var(--lx,50%) var(--ly,60%), rgba(120,240,255,.16), transparent 70%);
+      animation: sweep 6s 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes sweep{ 0%{ --lx: 20%; --ly: 70%; opacity:.18 } 50%{ --lx: 80%; --ly: 30%; opacity:.28 } 100%{ --lx: 40%; --ly: 60%; opacity:.18 } }
+
+    /* Fireworks */
+    #fw-canvas{ position:fixed; inset:0; z-index:1; pointer-events:none; }
+
+    /* Footer */
+    .footer-note{
+      text-align:center; padding:30px 16px 42px; opacity:1; line-height:1.6; white-space:pre-line; z-index:4; position:relative; color:var(--txtSoft)
+    }
+    .footer-note .hi-name{ padding:6px 14px }
+
+    /* Popup with overlap fix */
+    .diwali-popup{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; z-index:5; opacity:0; transform: scale(0.96); transition: opacity .6s ease, transform .6s ease; }
+    .diwali-popup.show{ opacity:1; transform: scale(1) }
+    .dp-wrap{
+      padding: 22px 26px 20px;
+      border-radius:18px; text-align:center;
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      border:1px solid var(--border);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55), inset 0 0 24px rgba(120,240,255,.12);
+      backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%);
+    }
+    .dp-title{
+      margin:0; font-size: clamp(36px, 7.5vw, 96px);
+      font-family: "Great Vibes", cursive;
+      letter-spacing:.5px; color:#eaffff;
+      text-shadow: 0 0 20px rgba(120,240,255,.6), 0 0 46px rgba(255,127,242,.35);
+      line-height: 1.05; display:block;
+    }
+    .dp-sub{
+      display:block; margin-top: 8px; line-height: 1.2; white-space: normal; max-width: 90vw;
+      margin-left:auto; margin-right:auto; font-size: clamp(12px, 2.4vw, 16px);
+    }
+
+    /* Reply Dialog + glass */
+    .overlay{ position:fixed; inset:0; background: rgba(6,14,24,.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index:6; display:none; align-items:center; justify-content:center; }
+    .overlay.show{ display:flex }
+    .dialog{
+      width:min(92vw, 540px); border-radius:16px; padding:18px 18px 20px; background: linear-gradient(180deg, var(--panelA), var(--panelB)); border:1px solid var(--border);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55), inset 0 0 24px rgba(120,240,255,.08); text-align:center; position:relative; overflow:hidden; color:#e6fbff; backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%);
+    }
+    .dialog h4{ margin:0 0 10px; font-weight:700; letter-spacing:.02em }
+    .dialog p{ margin:0 0 16px; opacity:.9 }
+    .neon-link{
+      display:inline-block; padding:10px 16px; border-radius:999px; text-decoration:none; color:#05141a; font-weight:800; letter-spacing:.02em;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      box-shadow: 0 0 14px var(--neon1), 0 0 24px var(--neon2), inset 0 0 10px rgba(255,255,255,.6);
+      position:relative;
+    }
+    .neon-link:after{ content:""; position:absolute; inset: -2px; border-radius:999px; pointer-events:none; border:2px solid rgba(255,255,255,.35); filter: blur(.4px); }
+    .close-btn{ position:absolute; top:8px; right:8px; border:none; background:transparent; color:#dff8ff; cursor:pointer; padding:6px 10px; border-radius:8px; font-weight:700; opacity:.85; }
+    .close-btn:hover{ opacity:1; background: rgba(255,255,255,.08) }
+
+    /* Double-tap glass message (neutral) */
+    .bless-overlay{ position:fixed; inset:0; pointer-events:none; z-index:7; display:none; align-items:center; justify-content:center; }
+    .bless-overlay.show{ display:flex }
+    .bless-card{
+      padding:14px 18px; border-radius:14px; background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      border:1px solid var(--border); box-shadow: 0 12px 40px rgba(0,0,0,.5), inset 0 0 18px rgba(120,240,255,.1);
+      backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%);
+    }
+    .typewriter{
+      font-family:"Poppins",system-ui; font-weight:700; color:#eaffff; font-size: clamp(18px,4.5vw,28px); letter-spacing:.02em;
+      text-shadow: 0 0 16px rgba(120,240,255,.6), 0 0 30px rgba(255,127,242,.35);
+      border-right: 2px solid rgba(233,245,255,.9);
+      white-space:nowrap; overflow:hidden; width:0; animation: typing 2.4s steps(30,end) forwards, caret 700ms step-end infinite;
+    }
+    @keyframes typing{ to{ width: 34ch } }
+    @keyframes caret{ 50%{ border-color: transparent } }
+
+    /* Confetti/emoji fall */
+    .rain{ position:fixed; inset:0; pointer-events:none; z-index:6 }
+    .piece{
+      position:absolute; top:-40px; font-size: 20px; will-change: transform, opacity;
+      animation: fall linear forwards;
+    }
+    @keyframes fall{
+      0%{ transform: translateY(-40px) translateX(0) rotate(0deg); opacity:0 }
+      10%{ opacity:1 }
+      100%{ transform: translateY(110vh) translateX(var(--drift, 0)) rotate(540deg); opacity:0 }
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="loader-overlay" id="preloader" aria-hidden="false">
+    <div class="loader"></div>
+    <div class="loader-text">Meri pyaari bhn bss ek sec page load ho rha he 💝💝</div>
+  </div>
+
+  <!-- Background -->
+  <div class="lanterns" id="lanterns"></div>
+  <div class="edges" id="edges">
+    <div class="string top"></div>
+    <div class="string bottom"></div>
+  </div>
+  <div class="light-sweep"></div>
+
+  <!-- Popup (overlap fixed) -->
+  <div class="diwali-popup" id="diwaliPopup" aria-hidden="true">
+    <div class="dp-wrap">
+      <h2 class="dp-title">HAPPY DIWALI</h2>
+      <div class="dp-sub">Wishing you joyful and Happy Diwali</div>
+    </div>
+  </div>
+
+  <!-- Reply Dialog -->
+  <div class="overlay" id="replyOverlay" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="replyTitle">
+      <button class="close-btn" id="replyClose" aria-label="Close">✕</button>
+      <h4 id="replyTitle">Plzz apne reply neeche diye link par dedo</h4>
+      <p>Neon link par tap/click karke directly reply de sakte ho.</p>
+      <a class="neon-link" href="https://www.instagram.com/epicenchanter__" target="_blank" rel="noopener noreferrer">Instagram: @epicenchanter__</a>
+    </div>
+  </div>
+
+  <!-- Double-tap Blessing -->
+  <div class="bless-overlay" id="bless">
+    <div class="bless-card">
+      <div class="typewriter" id="blessMsg">Wishing you joy, light and blessings!</div>
+    </div>
+  </div>
+  <div class="rain" id="rain"></div>
+
+  <div class="scene" id="scene">
+    <header>
+      <h1 class="title">Happy Diwali</h1>
+      <div class="name-row">
+        <span class="hi-name"><i>🪔</i> HoneyPIE</span>
+        <span class="hi-name"><i>🪔</i> SHADOWSHOPI</span>
+        <span class="hi-name"><i>🪔</i> fzmksz</span>
+      </div>
+      <div class="to">With love and lights</div>
+    </header>
+
+    <div class="wrap">
+      <div class="grid">
+        <section class="panel">
+          <h3>Dil se Dua</h3>
+          <p class="msg">Iss Diwali neon roshniyon ke beech khushiyon ki chamak aur pyaar ki warmth hamesha saath rahe! ✨</p>
+          <div class="controls">
+            <button class="primary" id="lightBtn">Light the Candles</button>
+            <button id="replyBtn">Reply</button>
+          </div>
+          <small style="opacity:.85;color:#cfe8ff">Tip: Light pe tap karte hi warm neon glow aur fireworks trigger honge.</small>
+        </section>
+
+        <section class="stage panel">
+          <div class="rangoli"></div>
+          <div class="candles" aria-label="Candles">
+            <div class="glow" id="glow"></div>
+
+            <div class="candle c2">
+              <div class="wick"></div>
+              <div class="flame-emoji" id="e2">🔥</div>
+            </div>
+
+            <div class="candle c1">
+              <div class="wick"></div>
+              <div class="flame-emoji" id="e1">🔥</div>
+            </div>
+
+            <div class="candle c3">
+              <div class="wick"></div>
+              <div class="flame-emoji" id="e3">🔥</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="footer-note">
+made by your lovingly brother
+<span class="hi-name"><i>✨</i> EpicEnchanter 🤙🏻🤙🏻</span>
+    </footer>
+  </div>
+
+  <canvas id="fw-canvas"></canvas>
+
+  <audio id="bgAudio" src="https://cdn.pixabay.com/download/audio/2023/04/14/audio_3a3f7d7b2f.mp3?filename=soft-bells-143005.mp3" preload="auto"></audio>
+  <audio id="chime" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b2b4b2b9c.mp3?filename=soft-bells-ambient-21943.mp3" preload="auto"></audio>
+
+  <!--- #made by @EpicEnchanter -->
+  <script>
+  // Preloader
+  const preloader = document.getElementById('preloader');
+  setTimeout(()=>{ preloader.style.display='none'; }, 5000);
+
+  // Lanterns
+  const lanterns = document.getElementById('lanterns');
+  function spawnLantern(){
+    const l = document.createElement('div');
+    l.className = 'lantern' + (Math.random()<0.5?' alt':'');
+    const x = Math.random()*100;
+    const dur = 14 + Math.random()*10;
+    const delay = Math.random()*2;
+    const drift = (Math.random()>.5?1:-1) * (30 + Math.random()*80);
+    l.style.left = x+'vw';
+    l.style.animationDuration = dur+'s';
+    l.style.animationDelay = delay+'s';
+    l.style.setProperty('--drift', drift+'px');
+    lanterns.appendChild(l);
+    setTimeout(()=> l.remove(), (dur+delay)*1000);
+  }
+  setInterval(spawnLantern, 900);
+  for(let i=0;i<10;i++) spawnLantern();
+
+  // Edge LEDs
+  function makeBulbs(rowSel, count=36){
+    const row = document.querySelector(rowSel);
+    row.innerHTML = '';
+    for(let i=0;i<count;i++){
+      const b = document.createElement('div');
+      b.className = 'bulb';
+      const useAlt = Math.random()<0.5;
+      const col = useAlt ? 'var(--neon2)' : 'var(--neon1)';
+      const delay = (Math.random()*1.6).toFixed(2)+'s';
+      b.style.setProperty('--c', `color-mix(in oklab, ${col}, white 10%)`);
+      b.style.setProperty('--d', delay);
+      row.appendChild(b);
+    }
+  }
+  makeBulbs('.top', 36);
+  makeBulbs('.bottom', 36);
+
+  // Flames control (hidden at load; show on Light)
+  const e1 = document.getElementById('e1');
+  const e2 = document.getElementById('e2');
+  const e3 = document.getElementById('e3');
+  const flames = [e1,e2,e3].filter(Boolean);
+  const glow = document.getElementById('glow');
+  const bgAudio = document.getElementById('bgAudio');
+  const chime = document.getElementById('chime');
+
+  let lit = false;
+  function setLit(state){
+    lit = state ?? !lit;
+    const to = lit ? 1 : 0;
+    flames.forEach((f)=>{ f.style.opacity = to; });
+    glow.style.opacity = to ? 1 : 0;
+    document.querySelector('.light-sweep').style.opacity = lit ? .26 : .22;
+    if(lit){ bgAudio.volume = 0.35; bgAudio.currentTime = 0; bgAudio.play().catch(()=>{}); } else { bgAudio.pause(); }
+  }
+
+  // Fireworks
+  const fw = document.getElementById('fw-canvas');
+  const ctx = fw.getContext('2d');
+  const DPR = Math.max(1, devicePixelRatio || 1);
+  function resize(){
+    fw.width = innerWidth * DPR; fw.height = innerHeight * DPR;
+    fw.style.width = innerWidth + 'px'; fw.style.height = innerHeight + 'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  addEventListener('resize', resize, {passive:true}); resize();
+
+  const rockets = []; const particles = [];
+  const gravity = 0.12; const air = 0.992;
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+  function launch(x, y){ rockets.push({ x, y, vx: rand(-0.8,0.8), vy: rand(-9,-12), life: rand(0.9,1.2), hue: Math.floor(rand(0,360)), trail: [] }); }
+  function explode(x, y, hue){
+    const count = 60;
+    for(let i=0;i<count;i++){
+      const ang = (Math.PI*2) * (i/count) + rand(-0.05,0.05);
+      const spd = rand(2.2, 5.2);
+      particles.push({ x,y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, size: rand(1.2,2.4),
+        col: `hsl(${(hue+rand(-20,20))%360} 95% 70% / 1)` });
+    }
+  }
+  function trailDraw(tr){
+    ctx.beginPath();
+    for(let i=0;i<tr.length-1;i++){
+      const p = tr[i], n = tr[i+1];
+      ctx.strokeStyle = `rgba(120,240,255,${0.18 + i*0.06})`;
+      ctx.lineWidth = 2 - i*0.15; ctx.moveTo(p.x, p.y); ctx.lineTo(n.x, n.y);
+    }
+    ctx.stroke();
+  }
+  function step(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(let i=rockets.length-1;i>=0;i--){
+      const r=rockets[i]; r.vy += gravity*.2; r.x += r.vx; r.y += r.vy; r.trail.unshift({x:r.x,y:r.y}); if(r.trail.length>10) r.trail.pop();
+      trailDraw(r.trail);
+      ctx.fillStyle=`hsl(${r.hue} 100% 85%)`; ctx.shadowColor='rgba(120,240,255,.8)'; ctx.shadowBlur=12;
+      ctx.beginPath(); ctx.arc(r.x,r.y,2.2,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0;
+      r.life -= .02;
+      if(r.vy>=-2 || r.life<=0 || r.y<innerHeight*.2){ explode(r.x,r.y,r.hue); rockets.splice(i,1); }
+    }
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i]; p.vx*=air; p.vy=p.vy*air+gravity*.25; p.x+=p.vx; p.y+=p.vy;
+      ctx.fillStyle=p.col; ctx.globalAlpha=.98; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+      p.size*=.992; if(p.size<.2) particles.splice(i,1);
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(step);
+  }
+  step();
+
+  function getPoint(e){ if(e.touches && e.touches[0]) return {x:e.touches[0].clientX,y:e.touches[0].clientY}; return {x:e.clientX,y:e.clientY}; }
+  function fire(e){ const p=getPoint(e); launch(p.x,p.y); }
+  addEventListener('mousedown', fire);
+  addEventListener('touchstart', fire, {passive:true});
+
+  // Auto demo rockets (after loader)
+  setTimeout(()=>{ for(let i=0;i<3;i++) launch(innerWidth*(0.3+0.4*Math.random()), innerHeight*.9); }, 6200);
+
+  // Safety caps
+  setInterval(()=>{ if(particles.length>1200) particles.splice(0,particles.length-900); if(rockets.length>12) rockets.splice(0,rockets.length-8); }, 1000);
+
+  // Popup + celebrate
+  const popup = document.getElementById('diwaliPopup');
+  function celebrateBurst(){
+    for(let i=0;i<5;i++) setTimeout(()=> launch(innerWidth*(0.25+0.5*Math.random()), innerHeight*.85), i*120);
+    for(let i=0;i<3;i++){
+      setTimeout(()=> launch(innerWidth*.15, innerHeight*.9), 200+i*100);
+      setTimeout(()=> launch(innerWidth*.85, innerHeight*.9), 260+i*100);
+    }
+    setTimeout(()=>{ for(let i=0;i<3;i++) explode(innerWidth*(0.35+0.3*Math.random()), innerHeight*(0.22+0.1*Math.random()), Math.floor(Math.random()*360)); }, 600);
+  }
+  function showPopup(ms=4200){
+    popup.classList.add('show'); popup.setAttribute('aria-hidden','false');
+    setTimeout(()=>{ popup.classList.remove('show'); popup.setAttribute('aria-hidden','true'); }, ms);
+  }
+
+  document.getElementById('lightBtn').addEventListener('click', ()=>{
+    const wasLit = lit; setLit(!lit);
+    if(!wasLit && lit){ celebrateBurst(); showPopup(4200); }
+  });
+
+  // Reply dialog
+  const replyBtn = document.getElementById('replyBtn');
+  const replyOverlay = document.getElementById('replyOverlay');
+  const replyClose = document.getElementById('replyClose');
+  replyBtn.addEventListener('click', ()=>{ replyOverlay.classList.add('show'); replyOverlay.setAttribute('aria-hidden','false'); });
+  replyClose.addEventListener('click', ()=>{ replyOverlay.classList.remove('show'); replyOverlay.setAttribute('aria-hidden','true'); });
+  replyOverlay.addEventListener('click', (e)=>{ if(e.target===replyOverlay){ replyOverlay.classList.remove('show'); replyOverlay.setAttribute('aria-hidden','true'); } });
+
+  // Double-tap Blessing Mode (neutral)
+  let taps = 0; let tapTimer = null; let blessed = false;
+  function triggerBlessing(){
+    if(blessed) return;
+    blessed = true;
+    const bless = document.getElementById('bless');
+    bless.classList.add('show');
+    chime.volume = 0.5; chime.currentTime = 0; chime.play().catch(()=>{});
+    spawnRain();
+    setTimeout(()=>{ bless.classList.remove('show'); }, 5000);
+    setTimeout(()=>{ blessed = false; }, 15000);
+  }
+  function onTap(){
+    taps++;
+    if(tapTimer) clearTimeout(tapTimer);
+    tapTimer = setTimeout(()=>{ taps=0; }, 600);
+    if(taps>=2){ taps=0; triggerBlessing(); }
+  }
+  window.addEventListener('click', onTap, {passive:true});
+  window.addEventListener('touchstart', onTap, {passive:true});
+
+  // Confetti/emoji rain
+  const rain = document.getElementById('rain');
+  const emojis = ['✨','🪔','💖','🎉','🌟','💫'];
+  function spawnRain(){
+    for(let i=0;i<80;i++){
+      const s = document.createElement('div');
+      s.className = 'piece';
+      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      const x = Math.random()*100;
+      const dur = 3 + Math.random()*2.5;
+      const drift = (Math.random()>.5?1:-1) * (20 + Math.random()*80);
+      s.style.left = x + 'vw';
+      s.style.animationDuration = dur + 's';
+      s.style.setProperty('--drift', drift + 'px');
+      rain.appendChild(s);
+      setTimeout(()=> s.remove(), dur*1000 + 500);
+    }
+  }
+
+  // Ensure flames hidden initially
+  document.addEventListener('DOMContentLoaded', ()=> {
+    flames.forEach(f=> f.style.opacity = 0);
+    glow.style.opacity = 0;
+  });
+
+  // #made by @EpicEnchanter
+  </script>
+</body>
+</html>
